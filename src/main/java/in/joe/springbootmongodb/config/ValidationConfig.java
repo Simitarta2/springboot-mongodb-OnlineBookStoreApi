@@ -9,7 +9,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class ValidationConfig {
 
 	
-	//It will trigger whenever a null value is added to the database
+	
 	@Bean
 	public ValidatingMongoEventListener validationMongoEventListener() {
 		return new ValidatingMongoEventListener(validator());

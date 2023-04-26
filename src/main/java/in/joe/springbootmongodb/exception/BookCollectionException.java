@@ -17,4 +17,8 @@ public class BookCollectionException extends Exception{
 	public static String bookAlreadyExists() {
 		return "book with given name already exists";
 	}
+	
+	public static String NoBooksAvailable() {
+		return "No books available";
+	}
 }

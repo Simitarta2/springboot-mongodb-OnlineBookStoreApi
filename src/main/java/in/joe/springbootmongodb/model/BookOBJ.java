@@ -4,6 +4,7 @@ package in.joe.springbootmongodb.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,8 @@ public class BookOBJ {
 	@Id
 	private String id;
 	
-	@NotNull(message="Book title cannot be null")
+	@NotNull(message="Book title cannot be null/n")
+	@NotEmpty(message="Book tutke cannot be empty")
 	private String bookTitle;
 	@NotNull(message="Publication date cannot be null")
 	private String publicationDate;

@@ -1,6 +1,9 @@
 package in.joe.springbootmongodb.repository;
 
+
+
 import java.util.Optional;
+
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -11,7 +14,8 @@ import in.joe.springbootmongodb.model.BookOBJ;
 @Repository
 public interface BookRepository extends MongoRepository<BookOBJ,String> {
 
-	@Query("{'book':?0}")
-	Optional<BookOBJ>findBybook(String book);
+	//Page<BookOBJ>findAll(Pageable pageable);
+	@Query("{'bookTitle':?0}")
+	Optional<BookOBJ>findByBookTitle(String bookTitle);
 	
 }

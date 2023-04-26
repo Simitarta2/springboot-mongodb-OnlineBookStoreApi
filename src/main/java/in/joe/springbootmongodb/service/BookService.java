@@ -9,11 +9,13 @@ import jakarta.validation.ConstraintViolationException;
 public interface BookService {
 	public void createbook(BookOBJ book)throws BookCollectionException,ConstraintViolationException;
 
-	public List<BookOBJ> getAllbooks();
-
+	public List<BookOBJ> getAllBooks(int pageNumber,int pageSize);
+	public List<BookOBJ>getAllBooksSrotedDESC();
+	public List<BookOBJ>getAllBooksSrotedASC();
 	public BookOBJ getbookByID(String id)throws BookCollectionException;
 	//void because the deleteByid<-- is a void
 	public void deletebookByID(String id)throws BookCollectionException;
-	
 	public void updateBookByID(String id,BookOBJ book) throws BookCollectionException;
+
+
 }
