@@ -50,25 +50,21 @@ public class BookServiceImpl  implements BookService {
 
 
 	
-	public List<BookOBJ> getAllBooksSrotedDESC() {
-		//ma 3refet shu bade hatt mahal defaultdirection
-		Sort sort=Sort.by(Sort.Direction.DESC,"price");
+	public List<BookOBJ> getAllBooksSrotedDESC(String sortType) {
 		
+		Sort sort=Sort.by(Sort.Direction.DESC,"price");
 		List<BookOBJ> books =bookRepo.findAll(sort);
 		if(books.size()>0)return books;
-		//I tried putting List but got an error so I tried ArrayList and it worked
 		else {
 			BookCollectionException.NoBooksAvailable();
 			return new ArrayList<BookOBJ>();
 		}
 	}
+	
 	public List<BookOBJ> getAllBooksSrotedASC() {
-		//ma 3refet shu bade hatt mahal defaultdirection
 		Sort sort=Sort.by(Sort.Direction.ASC,"price");
-		
 		List<BookOBJ> books =bookRepo.findAll(sort);
 		if(books.size()>0)return books;
-		//I tried putting List but got an error so I tried ArrayList and it worked
 		else {
 			BookCollectionException.NoBooksAvailable();
 			return new ArrayList<BookOBJ>();

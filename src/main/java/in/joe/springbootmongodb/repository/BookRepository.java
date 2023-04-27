@@ -14,7 +14,6 @@ import in.joe.springbootmongodb.model.BookOBJ;
 @Repository
 public interface BookRepository extends MongoRepository<BookOBJ,String> {
 
-	//Page<BookOBJ>findAll(Pageable pageable);
 	@Query("{'bookTitle':?0}")
 	Optional<BookOBJ>findByBookTitle(String bookTitle);
 	

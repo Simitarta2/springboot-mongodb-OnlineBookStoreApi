@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.joe.springbootmongodb.exception.BookCollectionException;
 import in.joe.springbootmongodb.model.BookOBJ;
-import in.joe.springbootmongodb.service.BookService;
+import in.joe.springbootmongodb.service.BookServiceImpl;
 import jakarta.validation.ConstraintViolationException;
 
 @RestController
@@ -31,7 +31,7 @@ public class BookController {
 	//Because we added security in the dependency everything will be protected
 	
 	@Autowired
-	private BookService bookService;
+	private BookServiceImpl bookService;
 	
 	
 	@PostMapping(value="/save")
@@ -55,8 +55,8 @@ public class BookController {
 	}
 	
 	@GetMapping (value="/getAll/sorted/DESC")
-	public ResponseEntity<?>getAllbooksSortedDESC(){
-		List<BookOBJ> books=bookService.getAllBooksSrotedDESC();
+	public ResponseEntity<?>getAllbooksSortedDESC(@RequestParam String sortType){
+		List<BookOBJ> books=bookService.getAllBooksSrotedDESC(sortType);
 		return new ResponseEntity<>(books,books.size()>0?HttpStatus.OK:HttpStatus.NOT_FOUND);
 	}
 	@GetMapping (value="/getAll/sorted/ASC")
