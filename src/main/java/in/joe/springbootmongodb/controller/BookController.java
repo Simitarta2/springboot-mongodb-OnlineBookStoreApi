@@ -2,6 +2,8 @@ package in.joe.springbootmongodb.controller;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.joe.springbootmongodb.entity.BookOBJ;
 import in.joe.springbootmongodb.exception.BookCollectionException;
-import in.joe.springbootmongodb.model.BookOBJ;
-import in.joe.springbootmongodb.service.BookServiceImpl;
-import jakarta.validation.ConstraintViolationException;
+import in.joe.springbootmongodb.service.BookService;
+
 
 @RestController
 @CrossOrigin(origins="*")
@@ -31,20 +33,22 @@ public class BookController {
 	//Because we added security in the dependency everything will be protected
 	
 	@Autowired
-	private BookServiceImpl bookService;
+	private BookService bookService;
 	
 	
 	@PostMapping(value="/save")
+	
 	public ResponseEntity<?>createbook(@RequestBody BookOBJ book){
 		try {
 			//book.setCreatedAt(new Date (System.currentTimeMillis()));
 			//bookRepo.save(book);
-			bookService.createbook(book);
+			bookService.creatBook(book);
 			return new ResponseEntity<BookOBJ>(book,HttpStatus.OK);
-		}catch(ConstraintViolationException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+		
 		}catch(BookCollectionException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+		}catch(ConstraintViolationException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -69,7 +73,7 @@ public class BookController {
 	public ResponseEntity<?>getById(@PathVariable("id")String id){
 		try {
 			
-			return new ResponseEntity<>(bookService.getbookByID(id),HttpStatus.OK);
+			return new ResponseEntity<>(bookService.getBookByID(id),HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
@@ -81,22 +85,43 @@ public class BookController {
 		try {
 			bookService.updateBookByID(id, book);
 			return new ResponseEntity<>("Update book with ID:"+id,HttpStatus.OK);
-		}catch(ConstraintViolationException e){
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+		
 		}catch(BookCollectionException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		}catch(ConstraintViolationException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/admin/delete/{id}")
 	public ResponseEntity<?>deleteById(@PathVariable("id")String id){
 		try {
-			bookService.deletebookByID(id);
+			bookService.deleteBookByID(id);
 			return new ResponseEntity<>("Succefully deleted with id"+id,HttpStatus.OK);
 		}catch(BookCollectionException e){
 		    return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
 	}
 	
+	
+	@GetMapping("/users/home")
+	public String hello() {
+		return "this is user home page contents";
+	}
+	
+	@GetMapping("/users/dashboard")
+	public String dashboard() {
+		return "this is user dashboard page contents";
+	}
+	
+	@GetMapping("/admin/home")
+	public String helloadmin() {
+		return "this is admin home page contents";
+	}
+	
+	@GetMapping("/admin/dashboard")
+	public String dashboardadmin() {
+		return "this is admin dashboard page contents";
+	}
 	
 }

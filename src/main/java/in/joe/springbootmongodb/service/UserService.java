@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import in.joe.springbootmongodb.entity.UserOBJ;
 import in.joe.springbootmongodb.exception.UserCollectionException;
-import in.joe.springbootmongodb.model.UserOBJ;
 import in.joe.springbootmongodb.repository.UserRepository;
-import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class UserService  {
@@ -28,8 +31,9 @@ public class UserService  {
 		}
 	}
 	
-	public List<UserOBJ> getAllUsers(){
-		List<UserOBJ>users=userRepo.findAll();
+	public List<UserOBJ> getAllUsers(int pageNumber,int pageSize){
+		Pageable pages= PageRequest.of(pageNumber,pageSize);
+		List<UserOBJ>users=userRepo.findAll(pages).getContent();
 		if(users.size()>0)return users;
 		else {
 			UserCollectionException.NoUsers();
@@ -51,7 +55,7 @@ public class UserService  {
 		else
 			throw new UserCollectionException(UserCollectionException.NotFoundException(id));
 	}
-	public void updateUserByID(String id,UserOBJ user) throws UserCollectionException {
+	public void updateUserByID(String id,UserOBJ user) throws UserCollectionException,ConstraintViolationException {
 		Optional<UserOBJ> userByID=userRepo.findById(id);
 		if(userByID.isPresent()) {
 			UserOBJ userToUP=userByID.get();

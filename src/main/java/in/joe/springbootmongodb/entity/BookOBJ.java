@@ -1,11 +1,13 @@
-package in.joe.springbootmongodb.model;
+package in.joe.springbootmongodb.entity;
 
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,7 @@ public class BookOBJ {
 	@Id
 	private String id;
 	
-	@NotNull(message="Book title cannot be null/n")
+	@NotNull(message="Book title cannot be null")
 	@NotEmpty(message="Book tutke cannot be empty")
 	private String bookTitle;
 	@NotNull(message="Publication date cannot be null")
@@ -78,10 +80,10 @@ public class BookOBJ {
 	}
 	
 	
-	public BookOBJ(String id, @NotNull(message = "Book title cannot be null") String bookTitle,
-			@NotNull(message = "Publication date cannot be null") String publicationDate,
-			@NotNull(message = "Available Quatity cannot be null") int availableQuatity,
-			@NotNull(message = "Price cannot be null") double price, String authorName, String description) {
+	public BookOBJ(String id,  String bookTitle,
+			 String publicationDate,
+			 int availableQuatity,
+			 double price, String authorName, String description) {
 		this.id = id;
 		this.bookTitle = bookTitle;
 		this.publicationDate = publicationDate;

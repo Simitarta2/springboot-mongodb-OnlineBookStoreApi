@@ -1,13 +1,16 @@
-package in.joe.springbootmongodb.model;
+package in.joe.springbootmongodb.entity;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+
 
 @Document(collection="users")
 public class UserOBJ {
 
+	@Id
 	private String id;
 	@NotNull(message=" User email cannot be null/n")
 	@NotEmpty(message="user email cannot be empty")
@@ -15,14 +18,14 @@ public class UserOBJ {
 	@NotNull(message=" User password cannot be null/n")
 	@NotEmpty(message="user password cannot be empty")
 	private String password;
-	private Boolean role;
+	private String role;//'ADMIN' or 'USER'
 	
 	
 
 	public UserOBJ(String id,
-			@NotNull(message = " User email cannot be null/n") @NotEmpty(message = "user email cannot be empty") String email,
-			@NotNull(message = " User password cannot be null/n") @NotEmpty(message = "user password cannot be empty") String password,
-			Boolean role) {
+			 String email,
+			 String password,
+			String role) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -58,11 +61,11 @@ public class UserOBJ {
 		this.password = password;
 	}
 
-	public Boolean getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Boolean role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

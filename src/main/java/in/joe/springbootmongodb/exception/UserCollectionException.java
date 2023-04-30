@@ -14,7 +14,7 @@ private static final long serialVersionUID=1L;
 	}
 	//to prevent duplication
 	public static String userAlreadyExists() {
-		return "user with given name already exists";
+		return "user with given email already exists";
 	}
 	
 	public static String NoUsers() {

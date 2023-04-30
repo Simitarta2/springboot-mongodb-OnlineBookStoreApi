@@ -15,10 +15,10 @@ public class ValidationConfig {
 		return new ValidatingMongoEventListener(validator());
 	}
 	//Added to specific parameter in model with @NotNull
-		@Bean
-		public LocalValidatorFactoryBean validator() {
-			return new LocalValidatorFactoryBean();
-		}
+	@Bean
+	public LocalValidatorFactoryBean validator() {
+		return new LocalValidatorFactoryBean();
+	}
 		
 	
 }

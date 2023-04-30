@@ -2,6 +2,8 @@ package in.joe.springbootmongodb.controller;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -14,12 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.joe.springbootmongodb.entity.UserOBJ;
 import in.joe.springbootmongodb.exception.UserCollectionException;
-import in.joe.springbootmongodb.model.UserOBJ;
 import in.joe.springbootmongodb.service.UserService;
-import jakarta.validation.ConstraintViolationException;
 
 @RestController
 @CrossOrigin(origins="*")
@@ -34,16 +36,17 @@ public class UserController {
 		try {
 			userService.creatUser(user);
 			return new ResponseEntity<UserOBJ>(user,HttpStatus.OK);				
-		}catch(ConstraintViolationException e){
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+		
 		}catch(UserCollectionException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+		}catch(ConstraintViolationException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping(value="/getAll")
-	public ResponseEntity<?>getUsers(){
-		List<UserOBJ>users=userService.getAllUsers();
+	public ResponseEntity<?>getUsers(@RequestParam Integer pageNumber,Integer pageSize){
+		List<UserOBJ>users=userService.getAllUsers(pageNumber,pageSize);
 		return new ResponseEntity<>(users,users.size()>0?HttpStatus.OK:HttpStatus.NOT_FOUND);
 	}
 	
@@ -60,10 +63,11 @@ public class UserController {
 		try {
 			userService.updateUserByID(id, user);
 			return new ResponseEntity<UserOBJ>(user,HttpStatus.OK);
-		}catch(ConstraintViolationException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+		
 		}catch(UserCollectionException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+		}catch(ConstraintViolationException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -77,5 +81,6 @@ public class UserController {
 		}
 		
 	}
+	
 }
 
