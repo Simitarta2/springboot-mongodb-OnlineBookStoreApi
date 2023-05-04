@@ -59,8 +59,8 @@ public class BookController {
 	}
 	
 	@GetMapping (value="/getAll/sorted/DESC")
-	public ResponseEntity<?>getAllbooksSortedDESC(@RequestParam String sortType){
-		List<BookOBJ> books=bookService.getAllBooksSrotedDESC(sortType);
+	public ResponseEntity<?>getAllbooksSortedDESC(){
+		List<BookOBJ> books=bookService.getAllBooksSrotedDESC();
 		return new ResponseEntity<>(books,books.size()>0?HttpStatus.OK:HttpStatus.NOT_FOUND);
 	}
 	@GetMapping (value="/getAll/sorted/ASC")
@@ -93,7 +93,7 @@ public class BookController {
 		}
 	}
 
-	@DeleteMapping("/admin/delete/{id}")
+	@DeleteMapping("delete/{id}")
 	public ResponseEntity<?>deleteById(@PathVariable("id")String id){
 		try {
 			bookService.deleteBookByID(id);
@@ -103,25 +103,5 @@ public class BookController {
 		}
 	}
 	
-	
-	@GetMapping("/users/home")
-	public String hello() {
-		return "this is user home page contents";
-	}
-	
-	@GetMapping("/users/dashboard")
-	public String dashboard() {
-		return "this is user dashboard page contents";
-	}
-	
-	@GetMapping("/admin/home")
-	public String helloadmin() {
-		return "this is admin home page contents";
-	}
-	
-	@GetMapping("/admin/dashboard")
-	public String dashboardadmin() {
-		return "this is admin dashboard page contents";
-	}
 	
 }

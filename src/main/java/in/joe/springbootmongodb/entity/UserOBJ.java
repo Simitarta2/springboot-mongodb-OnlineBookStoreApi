@@ -1,4 +1,7 @@
 package in.joe.springbootmongodb.entity;
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,10 +21,9 @@ public class UserOBJ {
 	@NotNull(message=" User password cannot be null/n")
 	@NotEmpty(message="user password cannot be empty")
 	private String password;
-	private String role;//'ADMIN' or 'USER'
 	
+	private Set<Authority>authorities;
 	
-
 	public UserOBJ(String id,
 			 String email,
 			 String password,
@@ -30,7 +32,7 @@ public class UserOBJ {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		
 	}
 	
 	public UserOBJ() {}
@@ -61,14 +63,15 @@ public class UserOBJ {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public Set<Authority> getAuthorities() {
+		return authorities;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 
+	
 	
 	
 	

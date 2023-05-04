@@ -60,7 +60,6 @@ public class UserService  {
 		if(userByID.isPresent()) {
 			UserOBJ userToUP=userByID.get();
 			userToUP.setPassword(user.getPassword());
-			userToUP.setRole(user.getRole());
 			userRepo.save(userToUP);
 		}
 		else

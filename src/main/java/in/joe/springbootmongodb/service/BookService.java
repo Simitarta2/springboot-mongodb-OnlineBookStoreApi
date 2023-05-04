@@ -52,7 +52,7 @@ public class BookService   {
 
 
 
-	public List<BookOBJ> getAllBooksSrotedDESC(String sortType) {
+	public List<BookOBJ> getAllBooksSrotedDESC() {
 		
 		Sort sort=Sort.by(Sort.Direction.DESC,"price");
 		List<BookOBJ> books =bookRepo.findAll(sort);
