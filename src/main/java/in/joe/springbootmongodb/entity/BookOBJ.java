@@ -92,9 +92,7 @@ public class BookOBJ {
 		this.authorName = authorName;
 		this.description = description;
 	}
-	public BookOBJ() {
-		
-	}
+	
 
 	
 	
