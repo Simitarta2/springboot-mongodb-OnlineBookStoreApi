@@ -2,13 +2,14 @@ package in.joe.springbootmongodb.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,14 +50,9 @@ public class UserController {
 	public ResponseEntity<?>creatUser(@RequestBody UserOBJ user){
 		try {
 			UserOBJ newUser=new UserOBJ();
-			//Authority auth=new Authority();
 			newUser.setEmail(user.getEmail());
 			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-			//newUser.setRole(userModel.getRole());
-//			newUser.setAuthorities(user.getAuthorities());
-//			auth.setUser(auth.getUser());
 			userService.creatUser(newUser);
-			
 			return new ResponseEntity<UserOBJ>(newUser,HttpStatus.OK);				
 		
 		}catch(UserCollectionException e) {
@@ -79,6 +76,15 @@ public class UserController {
 		}
 		
 	}
+	@PostMapping("/logout")
+	public ResponseEntity<HttpStatus> logout(HttpServletRequest request, HttpServletResponse response) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (authentication != null) {
+	        new SecurityContextLogoutHandler().logout(request, response, authentication);
+	    }
+	    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	
 	
 	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value="/user/getAll")

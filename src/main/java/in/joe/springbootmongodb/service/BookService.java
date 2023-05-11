@@ -4,6 +4,7 @@ package in.joe.springbootmongodb.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
@@ -73,7 +74,7 @@ public class BookService   {
 	
 
 	public BookOBJ getBookByID(String id) throws BookCollectionException,ConstraintViolationException {
-		// book Auto-generated method stub
+		
 		Optional<BookOBJ>bookOptional=bookRepo.findById(id);
 		if(!bookOptional.isPresent()) {
 			throw new BookCollectionException(BookCollectionException.NotFoundException(id));
@@ -112,32 +113,29 @@ public class BookService   {
 		
 	}
 
-//
-//	public Object getBookByTitle(String title) throws BookCollectionException {
-//		List<BookOBJ> allBooks = bookRepo.findAll();
-//		List <BookOBJ> OptionalBook =  allBooks.stream().filter(p->p.getBookTitle().contains(title).collect(Collectors.toList()));
-//		if(!OptionalBook.isPresent()) {
-//			throw new BookCollectionException(BookCollectionException.NotFoundException(title));
-//		}
-//		else return OptionalBook.get();
-//		
-//	}
-//
-//
-//	public List<BookOBJ> searchBooksByPriceRange(double minPrice, double maxPrice) {
-//	    List<BookOBJ> allBooks = bookRepo.findAll();
-//	    List<BookOBJ> filtered=allBooks.stream().filter(p->(p.getPrice()>minPrice&&p.getPrice()<maxPrice)).collect(Collectors.toList());
-////	    for (BookOBJ book : allBooks) {
-////	        if (book.getPrice() >= minPrice && book.getPrice() <= maxPrice) {
-////	            result.add(book);
-////	        }
-////	    }
-//	    return filtered;
-//	    
-//
-//	
+
+	public Object getBookByTitle(String title) throws BookCollectionException {
+		List<BookOBJ> allBooks = bookRepo.findAll();
+		List<BookOBJ> searchedBooks = allBooks.stream()
+			    .filter(p -> p.getBookTitle().contains(title))
+			    .collect(Collectors.toList());
+		 return searchedBooks;
+		
+	}
+
+
+	public List<BookOBJ> searchBooksByPriceRange(double minPrice, double maxPrice) {
+		List<BookOBJ> allBooks = bookRepo.findAll();
+		List<BookOBJ> filteredBooks = allBooks.stream()
+			    .filter(p -> p.getPrice()>minPrice&&p.getPrice()<maxPrice)
+			    .collect(Collectors.toList());
+		 return filteredBooks;
+	    
+
+	
 	}
 	
+}
 
 
 

@@ -1,24 +1,16 @@
 package in.joe.springbootmongodb.entity;
 
-
-
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-
-
 
 @Document(collection="users")
 public class UserOBJ {
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String id;
 	
 	@NotNull(message=" User email cannot be null")
@@ -27,7 +19,6 @@ public class UserOBJ {
 	@NotNull(message=" User password cannot be null")
 	@NotEmpty(message="user password cannot be empty")
 	private String password;
-	
 	
 	
 	public UserOBJ(String id,
@@ -68,6 +59,8 @@ public class UserOBJ {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	
 
 	
 

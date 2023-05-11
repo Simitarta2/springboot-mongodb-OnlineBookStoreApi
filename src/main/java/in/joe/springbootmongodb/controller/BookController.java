@@ -81,24 +81,24 @@ public class BookController {
 		
 	}
 	
-//	@GetMapping("/books/books")
-//	public ResponseEntity<?> getBookByTitle(@RequestParam("title") String title){
-//		try {
-//			return new ResponseEntity<>(bookService.getBookByTitle(title),HttpStatus.OK);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
-//		}
-//	}
-//	
-//	@GetMapping("/books/price")
-//	public ResponseEntity<List<BookOBJ>> searchBooksByPrice(
-//	    @RequestParam(name = "minPrice", required = true) double minPrice,
-//	    @RequestParam(name = "maxPrice", required = true) double maxPrice
-//	) {
-//	    List<BookOBJ> books = bookService.searchBooksByPriceRange(minPrice, maxPrice);
-//	    return new ResponseEntity<List<BookOBJ>>(books,books.size()>0? HttpStatus.OK:HttpStatus.NOT_FOUND);
-//	}
+	@GetMapping("/search")
+	public ResponseEntity<?> getBookByTitle(@RequestParam("title") String title){
+		try {
+			return new ResponseEntity<>(bookService.getBookByTitle(title),HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/priceFilter")
+	public ResponseEntity<List<BookOBJ>> searchBooksByPrice(
+	    @RequestParam(name = "minPrice", required = true) double minPrice,
+	    @RequestParam(name = "maxPrice", required = true) double maxPrice
+	) {
+	    List<BookOBJ> books = bookService.searchBooksByPriceRange(minPrice, maxPrice);
+	    return new ResponseEntity<List<BookOBJ>>(books,books.size()>0? HttpStatus.OK:HttpStatus.NOT_FOUND);
+	}
 	
 	@PutMapping(value="/update/{id}")
 	

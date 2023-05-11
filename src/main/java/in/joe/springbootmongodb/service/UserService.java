@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import in.joe.springbootmongodb.entity.UserOBJ;
 import in.joe.springbootmongodb.exception.UserCollectionException;
 import in.joe.springbootmongodb.repository.UserRepository;
@@ -65,7 +66,6 @@ public class UserService  {
 		else
 			throw new UserCollectionException(UserCollectionException.NotFoundException(id));
 	}
-	
 	
 		
 	}
