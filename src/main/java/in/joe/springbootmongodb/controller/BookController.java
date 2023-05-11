@@ -36,12 +36,13 @@ public class BookController {
 	private BookService bookService;
 	
 	
-	@PostMapping(value="/save")
 	
+	@PostMapping(value="/save")
 	public ResponseEntity<?>createbook(@RequestBody BookOBJ book){
 		try {
 			//book.setCreatedAt(new Date (System.currentTimeMillis()));
 			//bookRepo.save(book);
+		
 			bookService.creatBook(book);
 			return new ResponseEntity<BookOBJ>(book,HttpStatus.OK);
 		
@@ -80,7 +81,27 @@ public class BookController {
 		
 	}
 	
+//	@GetMapping("/books/books")
+//	public ResponseEntity<?> getBookByTitle(@RequestParam("title") String title){
+//		try {
+//			return new ResponseEntity<>(bookService.getBookByTitle(title),HttpStatus.OK);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+//		}
+//	}
+//	
+//	@GetMapping("/books/price")
+//	public ResponseEntity<List<BookOBJ>> searchBooksByPrice(
+//	    @RequestParam(name = "minPrice", required = true) double minPrice,
+//	    @RequestParam(name = "maxPrice", required = true) double maxPrice
+//	) {
+//	    List<BookOBJ> books = bookService.searchBooksByPriceRange(minPrice, maxPrice);
+//	    return new ResponseEntity<List<BookOBJ>>(books,books.size()>0? HttpStatus.OK:HttpStatus.NOT_FOUND);
+//	}
+	
 	@PutMapping(value="/update/{id}")
+	
 	public ResponseEntity<?>updateById(@PathVariable("id")String id,@RequestBody BookOBJ book){
 		try {
 			bookService.updateBookByID(id, book);
@@ -94,6 +115,7 @@ public class BookController {
 	}
 
 	@DeleteMapping("delete/{id}")
+	
 	public ResponseEntity<?>deleteById(@PathVariable("id")String id){
 		try {
 			bookService.deleteBookByID(id);

@@ -65,6 +65,8 @@ public class UserService  {
 		else
 			throw new UserCollectionException(UserCollectionException.NotFoundException(id));
 	}
+	
+	
 		
 	}
 

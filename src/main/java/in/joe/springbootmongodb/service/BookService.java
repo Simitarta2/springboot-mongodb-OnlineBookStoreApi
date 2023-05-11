@@ -50,8 +50,6 @@ public class BookService   {
 		}
 	}
 
-
-
 	public List<BookOBJ> getAllBooksSrotedDESC() {
 		
 		Sort sort=Sort.by(Sort.Direction.DESC,"price");
@@ -114,8 +112,36 @@ public class BookService   {
 		
 	}
 
+//
+//	public Object getBookByTitle(String title) throws BookCollectionException {
+//		List<BookOBJ> allBooks = bookRepo.findAll();
+//		List <BookOBJ> OptionalBook =  allBooks.stream().filter(p->p.getBookTitle().contains(title).collect(Collectors.toList()));
+//		if(!OptionalBook.isPresent()) {
+//			throw new BookCollectionException(BookCollectionException.NotFoundException(title));
+//		}
+//		else return OptionalBook.get();
+//		
+//	}
+//
+//
+//	public List<BookOBJ> searchBooksByPriceRange(double minPrice, double maxPrice) {
+//	    List<BookOBJ> allBooks = bookRepo.findAll();
+//	    List<BookOBJ> filtered=allBooks.stream().filter(p->(p.getPrice()>minPrice&&p.getPrice()<maxPrice)).collect(Collectors.toList());
+////	    for (BookOBJ book : allBooks) {
+////	        if (book.getPrice() >= minPrice && book.getPrice() <= maxPrice) {
+////	            result.add(book);
+////	        }
+////	    }
+//	    return filtered;
+//	    
+//
+//	
+	}
+	
+
+
 
 	
 	
 
-}
+

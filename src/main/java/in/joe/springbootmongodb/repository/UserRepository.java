@@ -11,4 +11,5 @@ public interface UserRepository extends MongoRepository<UserOBJ,String> {
 
 	@Query("{'email':?0}")
 	Optional<UserOBJ>findByEmail(String email);
+	
 }

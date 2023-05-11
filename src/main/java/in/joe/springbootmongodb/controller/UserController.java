@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,18 +23,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import in.joe.springbootmongodb.entity.UserOBJ;
 import in.joe.springbootmongodb.exception.UserCollectionException;
-import in.joe.springbootmongodb.model.UserModel;
 import in.joe.springbootmongodb.service.UserService;
 
 @RestController
 @CrossOrigin(origins="*")
-//@RequestMapping("api/user")
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class UserController {
 
 	@Autowired
@@ -44,11 +45,15 @@ public class UserController {
 	private AuthenticationManager authentication;
 	
 	@PostMapping(value="/register")
-	public ResponseEntity<?>creatUser(@RequestBody UserModel userModel){
+	public ResponseEntity<?>creatUser(@RequestBody UserOBJ user){
 		try {
 			UserOBJ newUser=new UserOBJ();
-			newUser.setEmail(userModel.getEmail());
-			newUser.setPassword(passwordEncoder.encode(userModel.getPassword()));
+			//Authority auth=new Authority();
+			newUser.setEmail(user.getEmail());
+			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+			//newUser.setRole(userModel.getRole());
+//			newUser.setAuthorities(user.getAuthorities());
+//			auth.setUser(auth.getUser());
 			userService.creatUser(newUser);
 			
 			return new ResponseEntity<UserOBJ>(newUser,HttpStatus.OK);				
@@ -62,17 +67,20 @@ public class UserController {
 	
 	
 	@PostMapping(value="/login")
-	public ResponseEntity<HttpStatus>login(@RequestBody UserModel userModel){
+	public ResponseEntity<HttpStatus>login(@RequestBody UserOBJ userModel){
 		Authentication authObject;
 		try {
 			authObject=authentication.authenticate(new
 					UsernamePasswordAuthenticationToken(userModel.getEmail(),userModel.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authObject);
-		}catch(BadCredentialsException e) {}
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}catch(BadCredentialsException e) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
-	
+	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value="/user/getAll")
 	public ResponseEntity<?>getUsers(@RequestParam Integer pageNumber,Integer pageSize){
 		List<UserOBJ>users=userService.getAllUsers(pageNumber,pageSize);

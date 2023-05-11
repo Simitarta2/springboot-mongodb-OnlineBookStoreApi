@@ -1,7 +1,5 @@
 package in.joe.springbootmongodb.repository;
 
-
-
 import java.util.Optional;
 
 
