@@ -86,7 +86,6 @@ public class UserController {
 	}
 	
 	
-	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value="/user/getAll")
 	public ResponseEntity<?>getUsers(@RequestParam Integer pageNumber,Integer pageSize){
 		List<UserOBJ>users=userService.getAllUsers(pageNumber,pageSize);
