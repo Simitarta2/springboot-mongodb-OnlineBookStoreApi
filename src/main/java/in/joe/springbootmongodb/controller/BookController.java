@@ -37,6 +37,10 @@ public class BookController {
 	
 	
 	
+	@GetMapping(value="/hello")
+	public String hello() {
+		return "hello";
+	}
 	@PostMapping(value="/save")
 	public ResponseEntity<?>createbook(@RequestBody BookOBJ book){
 		try {
